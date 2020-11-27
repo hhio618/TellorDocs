@@ -38,7 +38,7 @@ jobs:
           cd ..
           if [ "$CURRENT_MD5" = "$CURRENT_MD5" ];
           then 
-             mv telliot/docs $GITHUB_WORKSPACE/miner-documentation
+             mv ../telliot/docs $GITHUB_WORKSPACE/miner-documentation
              # Let's update the content table
              export newContent=`cat ../telliot/docs/INDEX.md`
              sed -i 's/(/(miner-documentation\//g' ../telliot/docs/INDEX.md
