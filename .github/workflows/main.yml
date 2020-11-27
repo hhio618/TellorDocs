@@ -26,23 +26,21 @@ jobs:
           perl-version: '5.32'
 
       - name: Clone the telliot repo
-        working-directory: /app
+        working-directory: ./app
         run: git clone https://github.com/hhio618/telliot -b master telliot
 
       # Runs a set of commands using the runners shell
       - name:  multi-line script
+        working-directory: ./app
         run: |
-          cd /app/telliot/docs 
-          export TELLIOT_MD5=$(find `pwd` -type f -exec md5sum {} \; | md5sum | cut -d" " -f1)
-          cd $GITHUB_WORKSPACE/miner-documentation
-          export CURRENT_MD5=$(find `pwd` -type f -exec md5sum {} \; | md5sum | cut -d" " -f1)
-          cd /app
+          export TELLIOT_MD5=$(find telliot/docs  -type f -exec md5sum {} \; | md5sum | cut -d" " -f1)
+          export CURRENT_MD5=$(find $GITHUB_WORKSPACE/miner-documentation -type f -exec md5sum {} \; | md5sum | cut -d" " -f1)
           if [ "$CURRENT_MD5" = "$CURRENT_MD5" ];
           then 
-             sed -i 's/(/(miner-documentation\//g' telliot/docs/INDEX.md
-             export newContent=`cat telliot/docs/INDEX.md`
+             sed -i 's/(/(miner-documentation\//g' ./telliot/docs/INDEX.md
+             export newContent=`cat ./telliot/docs/INDEX.md`
              # We don't need this information here
-             rm -f telliot/docs/INDEX.md
+             rm -f ./telliot/docs/INDEX.md
              mv telliot/docs $GITHUB_WORKSPACE/miner-documentation
              # Let's update the content table
              perl -0777 -i -pe "s/(## Miner Documentation\\n).*?(\\n##)/\$1\n$newContent\n\$2/s" SUMMARY.md
