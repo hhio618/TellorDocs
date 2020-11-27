@@ -21,9 +21,9 @@ jobs:
         with:
           persist-credentials: false # otherwise, the token used is the GITHUB_TOKEN, instead of your personal token
           fetch-depth: 0 # otherwise, you will failed to push refs to dest repo
-      - uses: shogo82148/actions-setup-perl@v1
-        with:
-          perl-version: '5.32'
+#      - uses: shogo82148/actions-setup-perl@v1
+#        with:
+#          perl-version: '5.32'
 
       # Runs a set of commands using the runners shell
       - name:  multi-line script
@@ -45,5 +45,5 @@ jobs:
       - name: Echo git diff
         run: |
           echo `git diff`
-      - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v3
+#      - name: Create Pull Request
+#        uses: peter-evans/create-pull-request@v3
