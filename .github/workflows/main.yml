@@ -3,7 +3,7 @@ name: Sync miner docs
 
 on:
   schedule: 
-  - cron: "0/15 0 * * *" # every 15 minutes. set to whatever interval you like
+  - cron: "*/15 * * * *" # every 15 minutes. set to whatever interval you like
 
 
 jobs:
@@ -18,6 +18,9 @@ jobs:
         with:
           persist-credentials: false # otherwise, the token used is the GITHUB_TOKEN, instead of your personal token
           fetch-depth: 0 # otherwise, you will failed to push refs to dest repo
+      - uses: shogo82148/actions-setup-perl@v1
+        with:
+          perl-version: '5.32'
 
       - name: Clone the telliot repo
         run: git clone https://github.com/hhio618/telliot -b master ../telliot
@@ -34,15 +37,10 @@ jobs:
           then 
              mv telliot/docs $GITHUB_WORKSPACE/miner-documentation
              # Let's update the content table
-             sed -i "s/## Miner Documentation.*##/## Miner Documentation\n$(cat ../telliot/docs/INDEX.md)\n##/" SUMMARY.md
+             export newContent=`cat ../telliot/docs/INDEX.md`
+             sed -i 's/(/(miner-documentation\//g' ../telliot/docs/INDEX.md
+             perl -0777 -i -pe "s/(## Miner Documentation\\n).*?(\\n##)/\$1\n$newContent\n\$2/s" SUMMARY.md
           fi
-      - name: Commit files
+      - name: Echo git diff
         run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          git commit -m "Add changes" -a
-      - name: Push changes
-        uses: ad-m/github-push-action@master
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: ${{ github.ref }}
+          echo `git diff`
