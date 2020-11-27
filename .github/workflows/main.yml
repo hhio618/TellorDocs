@@ -1,5 +1,5 @@
 # Sync miner docs from https://github.com/tellor-io/telliot/tree/master/docs in miner-documentation folder in the current repo
-name: Repo Sync
+name: Sync miner docs
 
 on:
   schedule: 
