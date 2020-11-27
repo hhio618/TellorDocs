@@ -2,8 +2,11 @@
 name: Sync miner docs
 
 on:
-  schedule: 
-  - cron: "*/15 * * * *" # every 15 minutes. set to whatever interval you like
+#  schedule: 
+#  - cron: "0 0 * * *" # every 15 minutes. set to whatever interval you like
+  pull_request:
+  push:
+    branches: [master]
 
 
 jobs:
@@ -33,7 +36,7 @@ jobs:
           cd $GITHUB_WORKSPACE/miner-documentation
           export CURRENT_MD5=$(find `pwd` -type f -exec md5sum {} \; | md5sum | cut -d" " -f1)
           cd ..
-          if test $CURRENT_MD5 -eq $CURRENT_MD5
+          if [ "$CURRENT_MD5" = "$CURRENT_MD5" ];
           then 
              mv telliot/docs $GITHUB_WORKSPACE/miner-documentation
              # Let's update the content table
@@ -44,3 +47,5 @@ jobs:
       - name: Echo git diff
         run: |
           echo `git diff`
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v3
