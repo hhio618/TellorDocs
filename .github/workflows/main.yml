@@ -35,7 +35,7 @@ jobs:
           export TELLIOT_MD5=$(find `pwd` -type f -exec md5sum {} \; | md5sum | cut -d" " -f1)
           cd $GITHUB_WORKSPACE/miner-documentation
           export CURRENT_MD5=$(find `pwd` -type f -exec md5sum {} \; | md5sum | cut -d" " -f1)
-          cd ..
+          cd
           if [ "$CURRENT_MD5" = "$CURRENT_MD5" ];
           then 
              export newContent=`cat ../telliot/docs/INDEX.md`
