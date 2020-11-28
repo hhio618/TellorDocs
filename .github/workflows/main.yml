@@ -40,14 +40,11 @@ jobs:
              # Let's update the content table
              rm -rf $GITHUB_WORKSPACE/miner-documentation
              mv ./telliot/docs $GITHUB_WORKSPACE/miner-documentation
-             # perl -0777 -i -pe "s/(## Miner Documentation\\n).*?(\\n##)/\$1\n$newContent\n\$2/s" SUMMARY.md
+             perl -0777 -i -pe "s/(## Miner Documentation\\n).*?(\\n##)/\$1\n$newContent\n\$2/s" SUMMARY.md
           fi
           rm -rf ./telliot
-      - name: Echo git diff
+      - name: Clean up before PR
         run: |
-          pwd
-          echo $GITHUB_WORKSPACE
-          ls $GITHUB_WORKSPACE/miner-documentation
-          echo `git diff`
+          rm -rf ./telliot
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v3
