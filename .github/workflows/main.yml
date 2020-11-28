@@ -41,7 +41,7 @@ jobs:
             # Let's update the content table
             rm -rf $GITHUB_WORKSPACE/miner-documentation
             mv ./telliot/docs $GITHUB_WORKSPACE/miner-documentation
-            python .github/workflow/update-summary.py
+            python .github/workflows/update-summary.py
           fi
           rm -rf ./telliot
       - name: Clean up before PR
