@@ -38,6 +38,7 @@ jobs:
              # We don't need this information here
              rm -f ./telliot/docs/INDEX.md
              # Let's update the content table
+             rm -rf $GITHUB_WORKSPACE/miner-documentation
              mv ./telliot/docs $GITHUB_WORKSPACE/miner-documentation
              # perl -0777 -i -pe "s/(## Miner Documentation\\n).*?(\\n##)/\$1\n$newContent\n\$2/s" SUMMARY.md
           fi
