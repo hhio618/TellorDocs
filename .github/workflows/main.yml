@@ -21,9 +21,10 @@ jobs:
         with:
           persist-credentials: false # otherwise, the token used is the GITHUB_TOKEN, instead of your personal token
           fetch-depth: 0 # otherwise, you will failed to push refs to dest repo
-      - uses: shogo82148/actions-setup-perl@v1
+      - uses: actions/setup-python@v2
         with:
-          perl-version: '5.32'
+          python-version: '2.x' # Version range or exact version of a Python version to use, using SemVer's version range syntax
+          architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified
 
       # Runs a set of commands using the runners shell
       - name:  Sync
@@ -33,18 +34,32 @@ jobs:
           export CURRENT_MD5=$(find $GITHUB_WORKSPACE/miner-documentation -type f -exec md5sum {} \; | md5sum | cut -d" " -f1)
           if [ "$TELLIOT_MD5" != "$CURRENT_MD5" ];
           then 
-             sed -i 's/(/(miner-documentation\//g' ./telliot/docs/INDEX.md
-             export newContent=`cat ./telliot/docs/INDEX.md`
-             # We don't need this information here
-             rm -f ./telliot/docs/INDEX.md
-             # Let's update the content table
-             rm -rf $GITHUB_WORKSPACE/miner-documentation
-             mv ./telliot/docs $GITHUB_WORKSPACE/miner-documentation
-             perl -0777 -i -pe 's/(## Miner Documentation\\n).*?(\\n##)/\$1\n$newContent\n\$2/s' SUMMARY.md
+            sed -i 's/(/(miner-documentation\//g' ./telliot/docs/INDEX.md
+            export newContent=`cat ./telliot/docs/INDEX.md`
+            # We don't need this information here
+            rm -f ./telliot/docs/INDEX.md
+            # Let's update the content table
+            rm -rf $GITHUB_WORKSPACE/miner-documentation
+            mv ./telliot/docs $GITHUB_WORKSPACE/miner-documentation
+            python <<EOF
+            import os, sys, re
+            fname = 'SUMMARY.md'
+            os.rename(fname, fname + '.orig')
+            with open(fname + '.orig', 'r') as fin, open(fname, 'w') as fout, open("./telliot/docs/INDEX.md", "r") as fcontent:
+                newContent = fcontent.read()
+                data = fin.read()
+
+                data = re.sub(r'(## Miner Documentation).*?(##)', 
+                  r'\1\n\n' +
+                  newContent + 
+                  r'\2\n\n##', data, flags=re.DOTALL)
+                fout.write(data)
+            EOF
           fi
           rm -rf ./telliot
       - name: Clean up before PR
         run: |
           rm -rf ./telliot
+          rm -f SUMMARY.md.orig
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v3
