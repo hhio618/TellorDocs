@@ -43,6 +43,9 @@ jobs:
           rm -rf ./telliot
       - name: Echo git diff
         run: |
+          pwd
+          echo $GITHUB_WORKSPACE
+          ls $GITHUB_WORKSPACE/miner-documentation
           echo `git diff`
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v3
