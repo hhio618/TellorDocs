@@ -30,8 +30,11 @@
 * [Become a Miner](miner-documentation/miner.md)
 * [The Guide](miner-documentation/the-guide.md)
 * [Configuation](miner-documentation/configuation.md)
+* [Contributing](miner-documentation/contributing.md)
+* [Coding style guide](miner-documentation/coding-style-guide.md)
+* [Release process](miner-documentation/release-process.md)
 * [Reference](miner-documentation/miner-reference.md)
-* [Disclaimer](miner-documentation/disclaimer.md)
+* [Disclaimer](miner-documentation/disclaimer.md)##
 
 ## Holder Documentation <a id="trb-token-holders"></a>
 
