@@ -31,7 +31,7 @@ jobs:
           git clone https://github.com/hhio618/telliot -b master
           export TELLIOT_MD5=$(find ./telliot/docs  -type f -exec md5sum {} \; | md5sum | cut -d" " -f1)
           export CURRENT_MD5=$(find $GITHUB_WORKSPACE/miner-documentation -type f -exec md5sum {} \; | md5sum | cut -d" " -f1)
-          if [ "$TELLIOT_MD5" = "$CURRENT_MD5" ];
+          if [ "$TELLIOT_MD5" != "$CURRENT_MD5" ];
           then 
              sed -i 's/(/(miner-documentation\//g' ./telliot/docs/INDEX.md
              export newContent=`cat ./telliot/docs/INDEX.md`
