@@ -29,6 +29,9 @@ jobs:
       - name:  Sync
         run: |
           git clone https://github.com/hhio618/telliot -b master
+          ls
+          pwd
+          ls ./telliot
           export TELLIOT_MD5=$(find ./telliot/docs  -type f -exec md5sum {} \; | md5sum | cut -d" " -f1)
           export CURRENT_MD5=$(find $GITHUB_WORKSPACE/miner-documentation -type f -exec md5sum {} \; | md5sum | cut -d" " -f1)
           if [ "$TELLIOT_MD5" != "$CURRENT_MD5" ];
