@@ -1,7 +1,10 @@
 import os, sys, re
+
+if len(sys.argv) < 2:
+    sys.exit("USAGE: update-summary.py <path/to/INDEX.md>")
 fname = 'SUMMARY.md'
 os.rename(fname, fname + '.orig')
-with open(fname + '.orig', 'r') as fin, open(fname, 'w') as fout, open("../telliot/docs/INDEX.md", "r") as fcontent:
+with open(fname + '.orig', 'r') as fin, open(fname, 'w') as fout, open(sys.argv[1], "r") as fcontent:
     newContent = fcontent.read()
     data = fin.read()
 
