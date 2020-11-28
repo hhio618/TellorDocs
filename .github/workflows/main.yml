@@ -35,7 +35,7 @@ jobs:
           if [ "$TELLIOT_MD5" != "$CURRENT_MD5" ];
           then 
             sed -i 's/(/(miner-documentation\//g' ./telliot/docs/INDEX.md
-            python .github/workflow/update-summary.py ./telliot/docs/INDEX.md
+            python .github/workflows/update-summary.py ./telliot/docs/INDEX.md
             # We don't need this information here
             rm -f ./telliot/docs/INDEX.md
             # Let's update the content table
