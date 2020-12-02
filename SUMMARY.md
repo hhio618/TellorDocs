@@ -25,18 +25,13 @@
   * [Data Request IDs](dev-documentation/reference-page/data-request-ids.md)
   * [Variable Hashes](dev-documentation/reference-page/variable-hashes.md)
 
-## Telliot Documentation
+## Miner Documentation
 
-* [Changelog](telliot-documentation/CHANGELOG.md)
-* [Coding style guide](telliot-documentation/coding-style-guide.md)
-* [Readme](telliot-documentation/README.md)
-* [Configuation](telliot-documentation/configuation.md)
-* [Miner](telliot-documentation/miner.md)
-* [Miner reference](telliot-documentation/miner-reference.md)
-* [Contributing](telliot-documentation/contributing.md)
-* [Disclaimer](telliot-documentation/disclaimer.md)
-* [The guide](telliot-documentation/the-guide.md)
-* [Release process](telliot-documentation/release-process.md)##
+* [Become a Miner](miner-documentation/miner.md)
+* [The Guide](miner-documentation/the-guide.md)
+* [Configuation](miner-documentation/configuation.md)
+* [Reference](miner-documentation/miner-reference.md)
+* [Disclaimer](miner-documentation/disclaimer.md)
 
 ## Holder Documentation <a id="trb-token-holders"></a>
 
