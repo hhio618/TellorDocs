@@ -32,7 +32,7 @@ jobs:
           if [ "$TELLIOT_MD5" != "$CURRENT_MD5" ];
           then 
             # Prepair remote SUMMARY.md file
-            python .github/workflow/update-summary.py ./telliot/docs/
+            python .github/workflows/update-summary.py ./telliot/docs/
             # Let's update the content table
             rm -rf $GITHUB_WORKSPACE/telliot-documentation
             mv ./telliot/docs $GITHUB_WORKSPACE/telliot-documentation
