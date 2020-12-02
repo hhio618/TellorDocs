@@ -1,7 +1,8 @@
 # Sync Telliot docs from https://github.com/tellor-io/telliot/tree/master/docs in telliot-documentation folder in the current repo
 name: Sync Telliot docs
-  schedule: 
-  - cron: "0 0 * * *" # every day. set to whatever interval you like
+on: push
+#  schedule: 
+#  - cron: "0 0 * * *" # every day. set to whatever interval you like
 
 
 jobs:
@@ -24,7 +25,7 @@ jobs:
       # Runs a set of commands using the runners shell
       - name:  Sync
         run: |
-          git clone https://github.com/tellor-io/telliot -b master
+          git clone https://github.com/hhio618/telliot -b arrange-docs
           export TELLIOT_MD5=$(find ./telliot/docs  -type f -exec md5sum {} \; | md5sum | cut -d" " -f1)
           export CURRENT_MD5=$(find $GITHUB_WORKSPACE/telliot-documentation -type f -exec md5sum {} \; | md5sum | cut -d" " -f1)
           if [ "$TELLIOT_MD5" != "$CURRENT_MD5" ];
