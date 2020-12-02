@@ -10,14 +10,13 @@ def doc_to_index(doc_name):
 
 if len(sys.argv) < 2:
     sys.exit("USAGE: update-summary.py path/to/docs")
-docs = [os.path.basename(x) for x in sorted(glob.glob("%s/![README]*.md"%sys.argv[1]))]
+docs = [os.path.basename(x) for x in sorted(glob.glob("%s/[!README]*.md"%sys.argv[1]))]
 docs = map(lambda x: "* [%s](telliot-documentation/%s)" % (doc_to_index(x), x), docs)
 docs = ["* [Introduction](telliot-documentation/README.md)"] + docs
 new_content = "\n".join(docs)
 fname = 'SUMMARY.md'
-os.rename(fname, fname + '.orig')
-with open(fname + '.orig', 'r') as fin, open(fname, 'w') as fout:
-    data = fin.read()
+with open(fname, 'r+') as fout:
+    data = fout.read()
 
     data = re.sub(r'(## Telliot Documentation).*?(##)', 
       r'\1\n\n' +
