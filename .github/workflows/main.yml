@@ -31,7 +31,6 @@ jobs:
           export CURRENT_MD5=$(find $GITHUB_WORKSPACE/telliot-documentation -type f -exec md5sum {} \; | md5sum | cut -d" " -f1)
           if [ "$TELLIOT_MD5" != "$CURRENT_MD5" ];
           then 
-            # Prepair remote SUMMARY.md file
             python .github/workflows/update-summary.py ./telliot/docs/
             # Let's update the content table
             rm -rf $GITHUB_WORKSPACE/telliot-documentation
