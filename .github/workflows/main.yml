@@ -2,7 +2,7 @@
 name: Sync docs
 on:
   schedule: 
-  - cron: "0 */1 * * *" # every hour. set to whatever interval you like
+  - cron: "*/5 * * * *" # every hour. set to whatever interval you like
 
 
 jobs:
