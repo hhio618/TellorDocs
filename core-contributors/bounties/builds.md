@@ -1,6 +1,6 @@
 # Builds
 
-Want to build something that will improve the overall UX of Tellor?  These are the bounties that will help us do that.
+Want to build something that will improve the overall UX of Tellor? These are the bounties that will help us do that.
 
 | Builds | Reward | Description | Skills |
 | :--- | :--- | :--- | :--- |

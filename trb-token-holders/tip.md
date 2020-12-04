@@ -1,7 +1,7 @@
 # Tip
 
-Tellor has data update cycles we call **blocks**.  As requests for data comes into the system, the Tellor smart contract sorts the requests in a queue in order of how much **TRB "Tip"** is associated with it.  At the start of a new block the contract selects the data request with the **highest "Tip"** and issues a new challenge to the mining network to go compete at PoW and fetch that data.  Simply put, tipping incentives the Tellor network to update the data you want, and therefore can be views akin to a request.    
-  
+Tellor has data update cycles we call **blocks**. As requests for data comes into the system, the Tellor smart contract sorts the requests in a queue in order of how much **TRB "Tip"** is associated with it. At the start of a new block the contract selects the data request with the **highest "Tip"** and issues a new challenge to the mining network to go compete at PoW and fetch that data. Simply put, tipping incentives the Tellor network to update the data you want, and therefore can be views akin to a request.
+
 The flow goes like this:
 
 1. The user submits a query to Tellor using Tributes to incentivize miners to choose this query over other submissions.
@@ -15,7 +15,7 @@ The flow goes like this:
 
 ## Tellor Data Price Feed
 
-Adding a tip to request a specific price update is as easy as navigating to the [Tellor Data Price Feed](https://prices.tellorscan.com), with a metamask or similar web3 wallet enabled browser.   From there all you have to do is click the tip button and add the amount of your choice.
+Adding a tip to request a specific price update is as easy as navigating to the [Tellor Data Price Feed](https://prices.tellorscan.com), with a metamask or similar web3 wallet enabled browser. From there all you have to do is click the tip button and add the amount of your choice.
 
 ![Just click + Add Tip! ](../.gitbook/assets/screen-shot-2020-09-18-at-11.44.34-am.png)
 

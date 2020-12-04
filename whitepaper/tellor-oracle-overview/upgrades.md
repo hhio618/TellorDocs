@@ -1,6 +1,6 @@
 # Upgrades
 
-**Tellor uses an upgradeable proxy contract, separating the storage of data and the functionality of the contract.**   
+**Tellor uses an upgradeable proxy contract, separating the storage of data and the functionality of the contract.**
 
 The process for proposing an upgrade is as follows:
 

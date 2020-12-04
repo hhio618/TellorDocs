@@ -63,6 +63,5 @@ contract Oracle is usingTellor {
   }
 ```
 
-[Next ](https://tellor.readthedocs.io/en/latest/MinerFunctions/)[ Previous](https://tellor.readthedocs.io/en/latest/DevDocumentation/)  
-
+[Next ](https://tellor.readthedocs.io/en/latest/MinerFunctions/)[ Previous](https://tellor.readthedocs.io/en/latest/DevDocumentation/)
 

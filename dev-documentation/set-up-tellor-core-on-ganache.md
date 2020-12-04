@@ -162,7 +162,7 @@ In this step, you will need to run each of the 5 miners and the 1 data server in
            <-> Miner (0xcdd8) <->
 Tellor     <-> Miner (0xb9dD) <-> Data Server <-> Internet
 (on chain) <-> Miner (0x2305) <->
-           <-> Miner (0x3233) <->       
+           <-> Miner (0x3233) <->
 ```
 
 The data server pulls data from the internet, the 5 staked miners pull data from the data server and submit on-chain to the Tellor Core smart contracts. The following instructions cover setting this up locally.

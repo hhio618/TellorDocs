@@ -10,5 +10,3 @@ Testnet \(Rinkeby\) **-** [0xFe41Cb708CD98C5B20423433309E55b53F79134a](https://r
 
 {% page-ref page="variable-hashes.md" %}
 
-
-

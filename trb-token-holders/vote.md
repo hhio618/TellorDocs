@@ -23,7 +23,7 @@ TRB holders vote on the validity of the data and if the miner is found to be mal
 
 ![Recent Disputes](../.gitbook/assets/recentdisputes.png)
 
-*  Find the dispute with the **Open Status** and click on **Vote**
+* Find the dispute with the **Open Status** and click on **Vote**
 * In the window that opens, you will see **Your Voting Power** and you will see the options to **Support** or **Challenge**
 
 ![](../.gitbook/assets/vote.png)
