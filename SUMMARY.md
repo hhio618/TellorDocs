@@ -27,13 +27,15 @@
 
 ## Telliot Documentation
 
+# Table of contents
 * [Introduction](telliot-documentation/README.md)
-* [Setup and usage](telliot-documentation/setup-and-usage.md)
-* [Configuation](telliot-documentation/configuation.md)
-* [Contributing](telliot-documentation/contributing.md)
-* [Coding style guide](telliot-documentation/coding-style-guide.md)
-* [Release process](telliot-documentation/release-process.md)
-* [Changelog](telliot-documentation/CHANGELOG.md)
+* [Introduction](telliot-documentation/telliot-documentation/readme.md)
+* [Setup and usage](telliot-documentation/telliot-documentation/setup-and-usage.md)
+* [Configuation](telliot-documentation/telliot-documentation/configuation.md)
+* [Contributing](telliot-documentation/telliot-documentation/contributing.md)
+* [Coding style guide](telliot-documentation/telliot-documentation/coding-style-guide.md)
+* [Release process](telliot-documentation/telliot-documentation/release-process.md)
+* [Changelog](telliot-documentation/telliot-documentation/changelog.md)
 
 ## Holder Documentation <a id="trb-token-holders"></a>
 
