@@ -37,6 +37,7 @@ jobs:
             # Update telliot-documentation folder
             rm -rf $GITHUB_WORKSPACE/telliot-documentation
             mv ./telliot/docs $GITHUB_WORKSPACE/telliot-documentation
+            mv $GITHUB_WORKSPACE/telliot-documentation/README.md $GITHUB_WORKSPACE/telliot-documentation/telliot-documentation.md
             cp -r ./telliot/.gitbook/assets/* $GITHUB_WORKSPACE/.gitbook/assets/
           fi
       - name: Clean up before PR

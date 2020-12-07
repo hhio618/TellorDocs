@@ -11,11 +11,15 @@ if len(sys.argv) < 2:
 new_content = []
 with open(sys.argv[1], "r") as fcontent:
     lines = fcontent.readlines()
-    for line in lines:
-        if len(line.strip()) != 0 and line.startswith("*"):
-            line = line.strip()
-            line = re.sub(r'(\()(.*)(\.md)', '(telliot-documentation/\\2.md', line)
-            new_content.append(line.strip())
+    headings = [line.strip() for line in lines if len(line.strip()) != 0 and line.startswith("*")]
+    # Handle README.md file from telliot repo: rename README.md -> telliot-documentation.md
+    readme = headings[0]
+    new_content.append(re.sub(r'(\()(.*)(\.md)', '(telliot-documentation/telliot-documentation.md', readme))
+    # Handle other headings
+    for line in headings[1:]:
+        line = line.strip()
+        line = re.sub(r'(\()(.*)(\.md)', '(telliot-documentation/\\2.md', line)
+        new_content.append(line.strip())
 new_content = "\n".join(new_content)
 fname = 'SUMMARY.md'
 with open(fname, 'r') as f:
