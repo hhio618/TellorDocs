@@ -27,7 +27,7 @@
 
 ## Telliot Documentation
 
-* [Introduction](telliot-documentation/README.md)
+* [Introduction](telliot-documentation/READM1E.md)
 * [Setup and usage](telliot-documentation/setup-and-usage.md)
 * [Contributing](telliot-documentation/contributing.md)
 * [Coding style guide](telliot-documentation/coding-style-guide.md)
