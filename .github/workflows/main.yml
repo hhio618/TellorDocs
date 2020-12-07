@@ -28,6 +28,8 @@ jobs:
           git clone https://github.com/tellor-io/telliot -b master
           export TELLIOT_MD5=$(find ./telliot/docs  -type f -exec md5sum {} \; | md5sum | cut -d" " -f1)
           export CURRENT_MD5=$(find $GITHUB_WORKSPACE/telliot-documentation -type f -exec md5sum {} \; | md5sum | cut -d" " -f1)
+          echo $TELLIOT_MD5
+          echo $CURRENT_MD5
           if [ "$TELLIOT_MD5" != "$CURRENT_MD5" ];
           then 
             # Let's update the content table
@@ -38,6 +40,7 @@ jobs:
             rm -rf $GITHUB_WORKSPACE/telliot-documentation
             mv ./telliot/docs $GITHUB_WORKSPACE/telliot-documentation
             mv $GITHUB_WORKSPACE/telliot-documentation/README.md $GITHUB_WORKSPACE/telliot-documentation/telliot-documentation.md
+            ls $GITHUB_WORKSPACE/telliot-documentation
             cp -r ./telliot/.gitbook/assets/* $GITHUB_WORKSPACE/.gitbook/assets/
           fi
       - name: Clean up before PR
