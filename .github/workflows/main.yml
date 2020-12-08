@@ -1,8 +1,8 @@
 # Sync Telliot docs from https://github.com/tellor-io/telliot/tree/master/docs in telliot folder in the current repo
 name: Sync docs
-on:
-  schedule: 
-  - cron: "0 */1 * * *" # every hour. set to whatever interval you like
+on: push
+#  schedule: 
+#  - cron: "0 */1 * * *" # every hour. set to whatever interval you like
 
 
 jobs:
@@ -32,6 +32,7 @@ jobs:
             echo "Changes found!"
             echo "Starting to update..."
             # Let's update the content table
+            ls -la $GITHUB_WORKSPACE/telliot
             python .github/workflows/update-summary.py ./$TMP/docs/SUMMARY.md
             # We don't need ./$TMP/docs/SUMMARY.md as we'll merge it to SUMMARY.md in this repo.
             rm -f ./$TMP/docs/SUMMARY.md
@@ -42,6 +43,7 @@ jobs:
             cp -r ./$TMP/.gitbook/assets/* $GITHUB_WORKSPACE/.gitbook/assets/
             # Clean up before the PR
             rm -rf ./$TMP
+            ls -la $GITHUB_WORKSPACE/telliot
             echo "done"
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v3
