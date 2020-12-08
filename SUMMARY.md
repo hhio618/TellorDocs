@@ -30,8 +30,6 @@
 * [Introduction](telliot/telliot.md)
 * [Setup and usage](telliot/setup-and-usage.md)
 * [Configuation reference](telliot/configuation.md)
-* [Contributing](telliot/contributing.md)
-* [Coding style guide](telliot/coding-style-guide.md)
 * [Release process](telliot/release-process.md)
 * [Changelog](telliot/changelog.md)
 
