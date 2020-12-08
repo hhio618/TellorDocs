@@ -48,4 +48,5 @@ jobs:
         with:
           title: Sync telliot docs
           body: Automated changes by `Sync docs` GitHub action
+          delete-branch: true
 
