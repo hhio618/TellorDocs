@@ -8,24 +8,97 @@ description: Here are the nuts and bolts for usinng the CLI
 
 The CLI is provided as a pre-built binary with every release and also as a docker image.
 
-#### Run with Docker - [https://hub.docker.com/u/tellor](https://hub.docker.com/u/tellor)
+### Run manually
+
+Download and run the [latest release](https://github.com/tellor-io/telliot/releases/latest)
 
 ```bash
-docker run -v $(pwd)/.local:/configs tellor/telliot:master mine
+wget https://github.com/tellor-io/telliot/releases/latest/download/telliot
+chmod +x telliot
 ```
 
-#### Or download the Latest release - [https://github.com/tellor-io/telliot/releases](https://github.com/tellor-io/telliot/releases)
+### Run with Docker - [https://hub.docker.com/u/tellor](https://hub.docker.com/u/tellor)
 
-```text
-wget https://github.com/tellor-io/telliot/releases/[release-num]/download/tellor
-chmod +x tellor
+```bash
+docker run -v $(pwd)/local:/configs tellor/telliot:master mine
+```
+
+### Run with k8s
+
+{% hint style="info" %}
+tested with [google cloud](https://cloud.google.com), but should work with any k8s cluster.
+{% endhint %}
+
+* Install [`gcloud`](https://cloud.google.com/sdk/docs/install)
+* Install [`kubectl`](https://kubernetes.io/docs/tasks/tools/install-kubectl)
+* Create a k8s cluster with a single node
+* Login to the cluster
+
+```bash
+gcloud auth login --project projectName
+gcloud container clusters get-credentials main --zone europe-west2-a --project projectName
+```
+
+* Deploy the `cli` \(by default deployed to run as a miner\)
+
+```bash
+git clone https://github.com/tellor-io/telliot
+cd telliot
+export NAME=main
+mkdir -p .local/configs/$NAME
+
+# Create the secret file.
+cp configs/.env.example .local/configs/$NAME/.env # Edit the file after the copy.
+kubectl create secret generic telliot-$NAME --from-env-file=.local/configs/$NAME/.env
+
+cp configs/config.json .local/configs/$NAME/config.json # Edit the file after the copy.
+
+# Copy the index, manual. These can be used as it without editing.
+cp configs/api.json .local/configs/$NAME/api.json
+cp configs/manualData.json .local/configs/$NAME/manualData.json
+# Add the configs.
+kubectl create configmap telliot-$NAME \
+  --from-file=.local/configs/$NAME/config.json \
+  --from-file=.local/configs/$NAME/api.json \
+  --from-file=.local/configs/$NAME/manualData.json \
+  -o yaml --dry-run=client | kubectl apply -f -
+
+# Copy the deployment and run it.
+cp configs/manifests/telliot.yml .local/configs/$NAME/telliot.yml
+sed -i "s/telliot-main/telliot-$NAME/g" .local/configs/$NAME/telliot.yml
+kubectl apply -f .local/configs/$NAME/telliot.yml
+```
+
+#### To run another instance.
+
+```bash
+export NAME= # Put an instance name here. Something short as some properties are limited by length(e.g `export NAME=PR320`).
+# Run all the other commands from initial k8s setup.
+```
+
+#### To run a custom docker image.
+
+```bash
+export REPO= # Your docker repository name.
+docker build . -t $REPO/telliot:latest
+docker push $REPO/telliot:latest
+
+sed -i "s/tellor\/telliot:master/$REPO\/telliot:latest/g" .local/configs/$NAME/telliot.yml
+kubectl apply -f .local/configs/$NAME/telliot.yml
+```
+
+* Optionally deploy the monitoring stack with Prometheus and Grafana.
+
+```bash
+kubectl apply -f configs/manifests/monitoring-persist.yml
+kubectl apply -f configs/manifests/monitoring.yml
 ```
 
 ### Download and Edit config.json
 
 `config.json` is where you will enter your wallet address and configure the CLI for your machine.
 
-```text
+```bash
 wget https://raw.githubusercontent.com/tellor-io/telliot/master/configs/config.json
 ```
 
@@ -35,14 +108,7 @@ Open config.json and update the following values:
 
 ### Create .env file
 
-Most commands require some secrets and these are kept in a separate `configs/.env` so . This is a precaution so that are not accidentally exposed as part of the main configs.
-
-Copy and paste the following into your `.env` file, and edit this to match your mining address private key and Ethereum node endpoint
-
-```text
-ETH_PRIVATE_KEY="3a10b4bc1258e8bfefb95b498fb8c0f0cd6964a811eabca87df56xxxxxxxxxxxx"
-NODE_URL="https://mainnet.infura.io/v3/xxxxxxxxxxxxx"
-```
+Most commands require some secrets and these are kept in a separate `configs/.env`. This is a precaution so that are not accidentally exposed as part of the main config. Make a copy of the `env.example` and edit with your secrets.
 
 ## mine - Become a Miner
 
@@ -85,10 +151,8 @@ The guide that follows assumes that you have access to a suitable machine runnin
 
 Run the following commands:
 
-```text
-wget https://raw.githubusercontent.com/tellor-io/telliot/master/configs/indexes.json
-
-wget https://raw.githubusercontent.com/tellor-io/telliot/master/configs/loggingConfig.json
+```bash
+wget https://raw.githubusercontent.com/tellor-io/telliot/master/configs/api.json
 ```
 
 ### Download and Edit the Manual Data Entry File
@@ -97,7 +161,7 @@ Tellor currently has one data point which must be manually created. The rolling 
 
 Run the following command:
 
-```text
+```bash
 wget https://raw.githubusercontent.com/tellor-io/telliot/master/configs/manualData.json
 ```
 
@@ -105,7 +169,7 @@ For testing purposes, or if you want to hardcode in a specific value to enter, y
 
 The following example shows request ID 4, inputting a value of 9000 with a 1,000,000 granularity. Note the date is a unix timestamp.
 
-```text
+```bash
 "4":{
     "VALUE":9000000000,
     "DATE":1596153600
@@ -114,31 +178,8 @@ The following example shows request ID 4, inputting a value of 9000 with a 1,000
 
 ### Start mining.
 
-```text
+```bash
 telliot --config=./configs/config.json mine
-```
-
-### Bonus section - connecting to a Pool
-
-There are mining pools available for mining TRB without staking any tokens. The pool server operator stakes the tokens for you, and you receive rewards roughly proportional to your hashrate as a fraction of the pool's hashrate.
-
-{% hint style="info" %}
-Each pool has different fees and instructions for hooking up. Be sure to read your pool's documentation. Feel free to reach out to the community if you need help with mining pools.
-{% endhint %}
-
-Add the following lines to your config file:
-
-```text
-"enablePoolWorker": true,
-"poolURL": "<poolURL>",
-```
-
-Where the poolURL is the link to your pool. \(e.g. [http://tellorpool.org](http://tellorpool.org) \)
-
-You can change the job duration if needed. This is the time in seconds to grab information from the pool. The default time is 15 seconds.
-
-```text
-"poolJobDuration":10
 ```
 
 ## deposit - Deposit or withdraw a stake
@@ -151,19 +192,19 @@ You will need 500 TRB to run your own server for mining. Your stake is locked fo
 
 Run the following command to deposit your stake:
 
-```text
+```bash
 tellor --config=./configs/config.json stake deposit
 ```
 
 To unstake your tokens, you need to request a withdraw:
 
-```text
+```bash
 telliot --config=./configs/config.json stake request
 ```
 
 One week after the request, the tokens are free to move at your discretion after running the command:
 
-```text
+```bash
 telliot --config=./configs/config.json stake withdraw
 ```
 
@@ -175,13 +216,13 @@ The way that it works is that the dataServer component will store historical val
 
 To start the disputer, add the following line to your config file IN THE TRACKERS ARRAY:
 
-```text
+```bash
 "disputeChecker"
 ```
 
 Now when running the dataServer, you will store historical values and check for whether the submitted values were within min/max of the range of historical values given a threshold \(e.g. 1% outside\). The variables for configuring the time range of the historical values and the threshold are as follows:
 
-```text
+```bash
   disputeTimeDelta: 5,
   disputeThreshold: 0.01,
 ```
@@ -200,7 +241,7 @@ If you are running multiple miners, there is no reason to run multiple databases
 
 In this example will 5 miners connected to a single data server. These 5 miners will start the mining process and the 1 data server will be how each of the 5 miners fetch data from the internet. The network topology of this setup is as follow:
 
-```text
+```bash
            <-> Miner (0xE037) <->
            <-> Miner (0xcdd8) <->
 Tellor     <-> Miner (0xb9dD) <-> Data Server <-> Internet
@@ -210,7 +251,7 @@ Tellor     <-> Miner (0xb9dD) <-> Data Server <-> Internet
 
 The data server pulls data from the internet, the 5 staked miners pull data from the data server and submit on-chain to the Tellor Core smart contracts. The following instructions cover setting this up locally.
 
-```text
+```bash
 wget https://raw.githubusercontent.com/tellor-io/telliot/master/configs/config.json
 cp config.json config1.json
 telliot --config=config1.json dataServer
@@ -218,10 +259,9 @@ telliot --config=config1.json dataServer
 
 Edit `config1.json` to include the following:
 
-```text
+```bash
 {
     "publicAddress": "0xE037EC8EC9ec423826750853899394dE7F024fee",
-    "contractAddress": "0x7DdC408C0Cd13D3543156AE2bc5772C56E91AA0f",
     "databaseURL":"http://localhost7545",
     "serverWhitelist": [
                 "0xE037EC8EC9ec423826750853899394dE7F024fee",
@@ -237,11 +277,6 @@ Edit `config1.json` to include the following:
     "requestData":1,
     "gasMultiplier": 1,
     "gasMax":10,
-    "gpuConfig":{
-      "default":{
-        "disabled": true
-      }
-    },
     "trackers": [
           "balance",
           "currentVariables",
@@ -258,7 +293,7 @@ Edit `config1.json` to include the following:
 
 After saving this `config1.json` file. Create 4 copies of this file and edit the `dbFile`, `publicAddress`, `envFile` location for each of the files to include the other 5 staked miner addresses \(the command below do this for you with `cp` and `sed`\):
 
-```text
+```bash
 cp config1.json config2.json
 cp config1.json config3.json
 cp config1.json config4.json
@@ -282,7 +317,7 @@ sed -i -e '1,/0xE037EC8EC9ec423826750853899394dE7F024fee/ s/0xE037EC8EC9ec423826
 
 Create `.env` file with the private key for each miner.
 
-```text
+```bash
 echo "ETH_PRIVATE_KEY=4bdc16637633fa4b4854670fbb83fa254756798009f52a1d3add27fb5f5a8e16" > .env1
 echo "ETH_PRIVATE_KEY=d32132133e03be292495035cf32e0e2ce0227728ff7ec4ef5d47ec95097ceeed" > .env2
 echo "ETH_PRIVATE_KEY=d13dc98a245bd29193d5b41203a1d3a4ae564257d60e00d6f68d120ef6b796c5" > .env3
@@ -299,14 +334,14 @@ echo "NODE_URL=https://mainnet.infura.io/v3/xxxxxxxxxxxxx" >> .env5
 
 Finaly, make 1 more copy of the config for the data server and update the `serverHost` address to `0.0.0.0`:
 
-```text
+```bash
 cp config1.json config-dataserver.json
 sed -i -e 's/\"serverHost\": \"localhost\"/\"serverHost\": \"0.0.0.0\"/' config-dataserver.json
 ```
 
 The stakes have already been deposited for these Addresses so you can now move on to starting up each of the miners.
 
-#### Starting the Miners and Data Server <a id="starting-the-miners-and-data-server"></a>
+#### Starting the Miners and Data Server
 
 You can do this in 6 separate terminals locally. Run each of the command in each of the terminals and confirm they start up correctly.
 
@@ -323,7 +358,8 @@ You can do this in 6 separate terminals locally. Run each of the command in each
 
 At this point, you will have 7 terminals running: 6 terminals for the `telliot` and 1 terminal for running Ganache. You should see your miners are submitting transactions and if you want to check that the network difficulty is rising, you can use Truffle's console again and run the following commands:
 
-```text
+```bash
 let difficulty = await oracle.getUintVar("0xb12aff7664b16cb99339be399b863feecd64d14817be7e1f042f97e3f358e64e")
 difficulty.toNumber()
 ```
+
