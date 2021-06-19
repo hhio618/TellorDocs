@@ -4,8 +4,6 @@ description: Use the following hashes to read data from Tellor's contract
 
 # Variable Hashes
 
-
-
 | **value** | **keccak-256** |
 | :---: | :--- |
 | \_BLOCK\_NUMBER | 0x4b4cefd5ced7569ef0d091282b4bca9c52a034c56471a6061afd1bf307a2de7c |
@@ -45,6 +43,4 @@ description: Use the following hashes to read data from Tellor's contract
 | \_TOTAL\_TIP | 0x1590276b7f31dd8e2a06f9a92867333eeb3eddbc91e73b9833e3e55d8e34f77d |
 | \_VALUE | 0x9147231ab14efb72c38117f68521ddef8de64f092c18c69dbfb602ffc4de7f47 |
 | \_EIP\_SLOT | 0x7050c9e0f4ca769c69bd3a8ef740bc37934f8e2c036e5a723fd8ee048ed3f8c3 |
-
-
 

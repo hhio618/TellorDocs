@@ -41,7 +41,8 @@
 
 ## Token Holders
 
-* [What you can do](token-holders/what-you-can-do.md)
+* [What you can do](token-holders/what-you-can-do/README.md)
+  * [lkjkljlkjl](token-holders/what-you-can-do/lkjkljlkjl.md)
 * [Initiating a Dispute](token-holders/initiating-a-dispute.md)
 * [Voting on Disputes](token-holders/vote.md)
 * [Tip](token-holders/tip.md)

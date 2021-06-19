@@ -48,5 +48,3 @@ Rinkeby - [`0x577417CFaF319a1fAD90aA135E3848D2C00e68CF`](https://etherscan.io/ad
 
 {% page-ref page="variable-hashes.md" %}
 
-
-

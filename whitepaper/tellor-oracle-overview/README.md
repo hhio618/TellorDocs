@@ -12,5 +12,3 @@ description: Want to know how Tellor works?  You've come to the right place.
 
 {% page-ref page="mining.md" %}
 
-
-
